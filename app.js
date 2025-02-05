@@ -2,7 +2,20 @@ const searchBox = document.getElementById("search-box");
 const photoContainer = document.getElementById("photo-container");
 const searchButton = document.getElementById("search-button");
 
-const accessKey = "zn0Pp3aRQiy1w1xLaZksHD4JFeIpGtdGic8F4RgO368";
+let API_KEY = "";
+
+async function loadConfig() {
+  try {
+    const response = await fetch("config.json");
+    const config = await response.json();
+    API_KEY = config.API_KEY;
+  } catch (error) {
+    console.error("Error al cargar la API Key:", error);
+  }
+}
+
+// Llama a la función antes de hacer la búsqueda
+loadConfig();
 
 async function searchImage() {
   const searchContent = searchBox.value.trim(); // Evita búsquedas vacías
@@ -14,7 +27,7 @@ async function searchImage() {
 
   try {
     const response = await fetch(
-      `https://api.unsplash.com/search/photos?client_id=${accessKey}&query=${searchContent}`
+      `https://api.unsplash.com/search/photos?client_id=${API_KEY}&query=${searchContent}`
     );
 
     if (!response.ok) {
