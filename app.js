@@ -2,20 +2,24 @@ const searchBox = document.getElementById("search-box");
 const photoContainer = document.getElementById("photo-container");
 const searchButton = document.getElementById("search-button");
 
-let API_KEY = "";
+const API_KEY = window.API_KEY;
 
-async function loadConfig() {
+async function searchImage(query) {
+  if (!API_KEY) {
+    console.error("Error: API Key no encontrada.");
+    return;
+  }
+
+  const url = `https://api.unsplash.com/search/photos?client_id=${API_KEY}&query=${query}`;
+
   try {
-    const response = await fetch("config.json");
-    const config = await response.json();
-    API_KEY = config.API_KEY;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data); // Verifica si devuelve resultados
   } catch (error) {
-    console.error("Error al cargar la API Key:", error);
+    console.error("Error en la búsqueda:", error);
   }
 }
-
-// Llama a la función antes de hacer la búsqueda
-loadConfig();
 
 async function searchImage() {
   const searchContent = searchBox.value.trim(); // Evita búsquedas vacías

@@ -28,7 +28,9 @@
     <!-- SCRIPTS -->
     <script src="config.js"></script>
     <script src="app.js"></script>
-
+    <script>
+        window.API_KEY = window.API_KEY || (typeof CONFIG !== "undefined" ? CONFIG.UNSPLASH_API_KEY : "");
+    </script>
 
 </body>
 
